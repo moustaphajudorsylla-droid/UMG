@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App - Communiquez avec vos amis</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar avec liste des contacts -->
+        <div class="sidebar">
+            <div class="header">
+                <h1>💬 Chat</h1>
+                <button id="addFriend" class="add-btn" title="Ajouter un ami">+</button>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchFriend" placeholder="Rechercher un ami...">
+            </div>
+            <div id="friendsList" class="friends-list">
+                <!-- Les amis seront affichés ici -->
+            </div>
+        </div>
+
+        <!-- Zone de chat principale -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2 id="chatTitle">Sélectionnez une conversation</h2>
+                <button id="infosBtn" class="info-btn">ℹ️</button>
+            </div>
+            
+            <div id="messagesContainer" class="messages-container">
+                <!-- Les messages seront affichés ici -->
+            </div>
+
+            <div class="input-area">
+                <input 
+                    type="text" 
+                    id="messageInput" 
+                    placeholder="Écrivez un message..."
+                    disabled
+                >
+                <button id="sendBtn" class="send-btn" disabled>Envoyer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal pour ajouter un ami -->
+    <div id="addFriendModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Ajouter un ami</h2>
+            <input type="text" id="friendName" placeholder="Nom de l'ami">
+            <button id="confirmAddFriend" class="confirm-btn">Ajouter</button>
+        </div>
+    </div>
+
+    <!-- Modal pour paramètres utilisateur -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Vos paramètres</h2>
+            <label>Votre nom:</label>
+            <input type="text" id="userName" placeholder="Votre nom">
+            <button id="saveSettings" class="confirm-btn">Enregistrer</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
