@@ -1,50 +1,34 @@
-'use strict';
+// Client-side JavaScript for a pure chat application using localStorage
 
-const express = require('express');
-const http = require('http');
-const socketIo = require('socket.io');
+// Function to send messages
+function sendMessage() {
+    const input = document.getElementById('messageInput');
+    const message = input.value;
+    if (message) {
+        // Get messages from localStorage
+        const messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+        messages.push(message);
+        // Update localStorage
+        localStorage.setItem('chatMessages', JSON.stringify(messages));
+        input.value = '';
+        displayMessages();
+    }
+}
 
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
-
-let users = {};
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
-
-io.on('connection', (socket) => {
-    console.log('A user connected: ' + socket.id);
-
-    socket.on('new user', (username, callback) => {
-        if (username in users) {
-            callback(false);
-        } else {
-            callback(true);
-            socket.username = username;
-            users[socket.username] = socket;
-            updateUsernames();
-        }
+// Function to display messages
+function displayMessages() {
+    const messagesList = document.getElementById('messagesList');
+    messagesList.innerHTML = '';
+    const messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+    messages.forEach(msg => {
+        const li = document.createElement('li');
+        li.textContent = msg;
+        messagesList.appendChild(li);
     });
+}
 
-    socket.on('send message', (data) => {
-        io.emit('new message', { msg: data, user: socket.username });
-    });
+// Event listener for send button
+document.getElementById('sendButton').addEventListener('click', sendMessage);
 
-    socket.on('disconnect', () => {
-        if (socket.username) {
-            delete users[socket.username];
-            updateUsernames();
-        }
-    });
-});
-
-const updateUsernames = () => {
-    io.emit('get users', Object.keys(users));
-};
-
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Initial display of messages
+displayMessages();
